@@ -1,8 +1,8 @@
 function updateState(state, action) {
   if (action.type === 'INCREMENT') {
-    return state + action.amount;
+    return { count: state.count + action.amount }
   } else if (action.type === 'DECREMENT') {
-    return state - action.amount;
+    return { count: state.count - action.amount }
   } else {
     return state;
   }
@@ -40,11 +40,11 @@ const decrementAction = {
   amount: 1
 };
 
-const initialState = 0;
+const initialState = { count: 0 };
 
 const store = new Store(initialState, updateState);
 
-const unsubscribe = store.subscribe(() => console.log(store.state));
+const unsubscribe = store.subscribe(() => console.log(store.state.count));
 
 store.update(incrementAction);
 store.update(incrementAction);

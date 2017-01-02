@@ -1,5 +1,3 @@
-let state = 0;
-
 function updateState(state, action) {
   if (action.type === 'INCREMENT') {
     return state + action.amount;
@@ -7,6 +5,21 @@ function updateState(state, action) {
     return state - action.amount;
   } else {
     return state;
+  }
+}
+
+class Store {
+  constructor(state, updateState) {
+    this._state = state;
+    this._updateState = updateState;
+  }
+  
+  get state() {
+    return this._state;
+  }
+  
+  update(action) {
+    this._state = this._updateState(this._state, action);
   }
 }
 
@@ -20,11 +33,21 @@ const decrementAction = {
   amount: 1
 };
 
-state = updateState(state, incrementAction);
-console.log(state);
+const initialState = 0;
 
-state = updateState(state, decrementAction);
-console.log(state);
+const store = new Store(initialState, updateState);
 
-state = updateState(state, {});
-console.log(state);
+store.update(incrementAction);
+console.log(store.state);
+
+store.update(decrementAction);
+console.log(store.state);
+
+store.update(decrementAction);
+console.log(store.state);
+
+store.update(decrementAction);
+console.log(store.state);
+
+store.update({});
+console.log(store.state);

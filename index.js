@@ -8,14 +8,18 @@ function reducer(state = { count: 0 }, action) {
   }
 }
 
-const incrementAction = {
-  type: 'INCREMENT',
-  amount: 2
+const increment = (amount) => {
+  return {
+    type: 'INCREMENT',
+    amount
+  }
 };
 
-const decrementAction = {
-  type: 'DECREMENT',
-  amount: 1
+const decrement = (amount) => {
+  return {
+    type: 'DECREMENT',
+    amount
+  }
 };
 
 const initialState = { count: 0 };
@@ -26,9 +30,9 @@ const unsubscribe = store.subscribe(() => console.log(store.getState().count));
 
 console.log(store.getState());
 
-store.dispatch(incrementAction);
-store.dispatch(incrementAction);
+store.dispatch(increment(2));
+store.dispatch(increment(3));
 
 unsubscribe();
-store.dispatch(decrementAction);
+store.dispatch(decrement(2));
 console.log(store.getState());

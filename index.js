@@ -1,32 +1,10 @@
-function updateState(state, action) {
+function reducer(state = { count: 0 }, action) {
   if (action.type === 'INCREMENT') {
     return { count: state.count + action.amount }
   } else if (action.type === 'DECREMENT') {
     return { count: state.count - action.amount }
   } else {
     return state;
-  }
-}
-
-class Store {
-  constructor(state, updateState) {
-    this._state = state;
-    this._updateState = updateState;
-    this._callbacks = [];
-  }
-  
-  get state() {
-    return this._state;
-  }
-  
-  update(action) {
-    this._state = this._updateState(this._state, action);
-    this._callbacks.forEach((callback) => callback());
-  }
-  
-  subscribe(callback) {
-    this._callbacks.push(callback);
-    return () => this._callbacks = this._callbacks.filter((cb) => cb !== callback);
   }
 }
 
@@ -42,14 +20,15 @@ const decrementAction = {
 
 const initialState = { count: 0 };
 
-const store = new Store(initialState, updateState);
+const store = createStore(reducer, initialState);
 
-const unsubscribe = store.subscribe(() => console.log(store.state.count));
+const unsubscribe = store.subscribe(() => console.log(store.getState().count));
 
-store.update(incrementAction);
-store.update(incrementAction);
+console.log(store.getState());
 
-console.log(store);
+store.dispatch(incrementAction);
+store.dispatch(incrementAction);
+
 unsubscribe();
-store.update(decrementAction);
-console.log(store);
+store.dispatch(decrementAction);
+console.log(store.getState());

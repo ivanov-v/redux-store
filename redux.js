@@ -14,5 +14,7 @@ function createStore(reducer, initialState) {
     return () => callbacks = callbacks.filter((cb) => cb !== callback);
   };
   
+  dispatch({});
+  
   return { getState, dispatch, subscribe };
 }
